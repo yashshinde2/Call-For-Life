@@ -221,7 +221,7 @@
                         </svg>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
     </section>
 
@@ -269,8 +269,8 @@
             <div class="mt-12 max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-sm">
                 <h3 class="text-xl font-bold text-center mb-6">Find a Donation Center Near You</h3>
                 <div class="flex">
-                    <input type="text" placeholder="Enter your zip code" class="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-500">
-                    <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-r-lg transition duration-300">Search</button>
+                    <input id="zipInput" type="text" placeholder="Enter your zip code" class="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <button id="searchBtn" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-r-lg transition duration-300">Search</button>
                 </div>
             </div>
         </div>
@@ -319,7 +319,6 @@
         // Simple fade-in animation on scroll
         document.addEventListener('DOMContentLoaded', function() {
             const fadeElements = document.querySelectorAll('.fade-in');
-            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -327,18 +326,31 @@
                     }
                 });
             }, { threshold: 0.1 });
-            
             fadeElements.forEach(el => {
                 el.style.opacity = 0;
                 observer.observe(el);
             });
-            
             // Mobile menu toggle functionality
             const mobileMenuButton = document.querySelector('.md\\:hidden button');
             mobileMenuButton.addEventListener('click', function() {
                 const navLinks = document.querySelector('.md\\:flex');
                 navLinks.classList.toggle('hidden');
             });
+
+            // Google Maps redirect for donation center search
+            const searchBtn = document.getElementById('searchBtn');
+            const zipInput = document.getElementById('zipInput');
+            if (searchBtn && zipInput) {
+                searchBtn.addEventListener('click', function() {
+                    const zip = zipInput.value.trim();
+                    if (zip) {
+                        const url = `https://www.google.com/maps/search/blood+donation+center+near+${encodeURIComponent(zip)}`;
+                        window.open(url, '_blank');
+                    } else {
+                        zipInput.focus();
+                    }
+                });
+            }
         });
     </script>
 </body>
